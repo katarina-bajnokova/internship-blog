@@ -7,7 +7,6 @@ import { getCollection } from "astro:content";
 const BASE = import.meta.env.BASE_URL;
 
 const posts = (await getCollection("blog"))
-	// ✅ Week 1 first → last week last
 	.sort((a, b) => a.data.periodStart.valueOf() - b.data.periodStart.valueOf());
 
 const companyName = "EHPA";
@@ -26,7 +25,7 @@ const companyUrl = "https://ehpa.org/";
 				<div class="hero__media">
 					<img
 						class="hero__avatar"
-						src={`${BASE}images/me.jpeg`}
+						src={`${BASE}images/me.jpg`}
 						alt="Portrait of Katarina Bajnokova"
 						decoding="async"
 					/>
@@ -74,8 +73,8 @@ const companyUrl = "https://ehpa.org/";
 					<ul class="post-list">
 						{posts.map((post) => (
 							<li class="post-card">
-								{/* ✅ base-safe link for GitHub Pages */}
-								<a class="post-link" href={`${BASE}blog/${post.id}/`}>
+								{/* ✅ base-safe + clean slug URL */}
+								<a class="post-link" href={`${BASE}blog/${post.slug}/`}>
 									<div class="post-card__top">
 										<h3 class="post-title">{post.data.title}</h3>
 										<span class="post-chip">Entry</span>

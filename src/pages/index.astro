@@ -4,11 +4,14 @@ import Footer from "../components/Footer.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("blog"))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const BASE = import.meta.env.BASE_URL;
 
-const companyName = "EHPA"; 
-const companyUrl = "https://ehpa.org/"; 
+const posts = (await getCollection("blog"))
+	// ✅ Week 1 first → last week last
+	.sort((a, b) => a.data.periodStart.valueOf() - b.data.periodStart.valueOf());
+
+const companyName = "EHPA";
+const companyUrl = "https://ehpa.org/";
 ---
 
 <!doctype html>
@@ -23,9 +26,8 @@ const companyUrl = "https://ehpa.org/";
 				<div class="hero__media">
 					<img
 						class="hero__avatar"
-						src="/internship-blog/images/me.jpg"
+						src={`${BASE}images/me.jpeg`}
 						alt="Portrait of Katarina Bajnokova"
-						loading="eager"
 						decoding="async"
 					/>
 				</div>
@@ -45,7 +47,7 @@ const companyUrl = "https://ehpa.org/";
 					</div>
 
 					<p class="hero__text">
-						Internship at
+						Internship at{" "}
 						<a class="hero__link" href={companyUrl} target="_blank" rel="noreferrer">
 							{companyName}
 						</a>
@@ -59,7 +61,6 @@ const companyUrl = "https://ehpa.org/";
 			<section class="section">
 				<div class="section__header">
 					<h2 class="section__title">Weekly entries</h2>
-				
 				</div>
 
 				{posts.length === 0 ? (
@@ -73,7 +74,8 @@ const companyUrl = "https://ehpa.org/";
 					<ul class="post-list">
 						{posts.map((post) => (
 							<li class="post-card">
-								<a class="post-link" href={`/blog/${post.id}/`}>
+								{/* ✅ base-safe link for GitHub Pages */}
+								<a class="post-link" href={`${BASE}blog/${post.id}/`}>
 									<div class="post-card__top">
 										<h3 class="post-title">{post.data.title}</h3>
 										<span class="post-chip">Entry</span>

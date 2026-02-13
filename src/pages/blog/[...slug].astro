@@ -6,7 +6,7 @@ export async function getStaticPaths() {
 	const posts = await getCollection("blog");
 
 	return posts.map((post) => ({
-		// ✅ Use slug (clean), not id (can include .md)
+		// ✅ slug (clean URL), not id (can include .md)
 		params: { slug: post.slug },
 		props: post,
 	}));

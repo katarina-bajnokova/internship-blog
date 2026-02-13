@@ -7,8 +7,8 @@ import { getCollection } from "astro:content";
 const posts = (await getCollection("blog"))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const companyName = "EHPA"; // TODO: replace with real company name
-const companyUrl = "https://ehpa.org/"; // TODO: replace with company website
+const companyName = "EHPA"; 
+const companyUrl = "https://ehpa.org/"; 
 ---
 
 <!doctype html>
@@ -23,7 +23,7 @@ const companyUrl = "https://ehpa.org/"; // TODO: replace with company website
 				<div class="hero__media">
 					<img
 						class="hero__avatar"
-						src="/images/me.jpg"
+						src="/internship-blog/images/me.jpg"
 						alt="Portrait of Katarina Bajnokova"
 						loading="eager"
 						decoding="async"

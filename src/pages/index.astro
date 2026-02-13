@@ -1,0 +1,106 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const companyName = "EHPA"; // TODO: replace with real company name
+const companyUrl = "https://ehpa.org/"; // TODO: replace with company website
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+
+	<body>
+		<main class="page">
+			<section class="hero">
+				<div class="hero__media">
+					<img
+						class="hero__avatar"
+						src="/images/me.jpg"
+						alt="Portrait of Katarina Bajnokova"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+
+				<div class="hero__content">
+					<p class="hero__eyebrow">Internship blog</p>
+					<h1 class="hero__title">Katarina Bajnokova</h1>
+
+					<p class="hero__subtitle">
+						International Digital Experience Design — AY 2025–2026
+					</p>
+
+					<div class="hero__meta">
+						<span class="meta-pill">Weekly updates</span>
+						<span class="meta-pill">UX / UI / Front-end</span>
+						<span class="meta-pill">Academic log</span>
+					</div>
+
+					<p class="hero__text">
+						Internship at
+						<a class="hero__link" href={companyUrl} target="_blank" rel="noreferrer">
+							{companyName}
+						</a>
+						<br />
+						This blog documents my work, skills, learning, collaboration, and growth.
+						Confidential information is excluded in agreement with my supervisor.
+					</p>
+				</div>
+			</section>
+
+			<section class="section">
+				<div class="section__header">
+					<h2 class="section__title">Weekly entries</h2>
+				
+				</div>
+
+				{posts.length === 0 ? (
+					<div class="empty">
+						<p class="empty__title">No entries yet.</p>
+						<p class="empty__text">
+							Add a Markdown file to <code>src/content/blog</code> to publish your first entry.
+						</p>
+					</div>
+				) : (
+					<ul class="post-list">
+						{posts.map((post) => (
+							<li class="post-card">
+								<a class="post-link" href={`/blog/${post.id}/`}>
+									<div class="post-card__top">
+										<h3 class="post-title">{post.data.title}</h3>
+										<span class="post-chip">Entry</span>
+									</div>
+
+									<p class="post-meta">
+										{post.data.pubDate.toLocaleDateString("en-GB", {
+											day: "2-digit",
+											month: "short",
+											year: "numeric",
+										})}
+										{" — "}
+										{post.data.description}
+									</p>
+
+									<div class="post-card__bottom">
+										<span class="post-cta">Read entry</span>
+										<span class="post-arrow" aria-hidden="true">→</span>
+									</div>
+								</a>
+							</li>
+						))}
+					</ul>
+				)}
+			</section>
+		</main>
+
+		<Footer />
+	</body>
+</html>

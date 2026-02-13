@@ -1,0 +1,141 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+import '../styles/globals.scss';
+
+type BlogData = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } =
+	Astro.props as BlogData;
+
+const heroAlt = '';
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+
+			/* Back Icon Button */
+			.back-icon {
+				position: fixed;
+				top: 2rem;
+				left: 2rem;
+				width: 42px;
+				height: 42px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+				background: rgba(0, 0, 0, 0.04);
+				backdrop-filter: blur(6px);
+				text-decoration: none;
+				transition: all 0.2s ease;
+				z-index: 100;
+			}
+
+			.back-icon:hover {
+				background: rgba(0, 0, 0, 0.08);
+				transform: translateX(-3px);
+			}
+
+			.back-icon svg {
+				width: 20px;
+				height: 20px;
+				stroke: rgba(0, 0, 0, 0.7);
+				transition: stroke 0.2s ease;
+			}
+
+			.back-icon:hover svg {
+				stroke: black;
+			}
+
+			.hero-image {
+				width: 100%;
+				max-width: 1020px;
+				margin: 3rem auto 0;
+				padding: 0 1em;
+			}
+
+			.hero-image img {
+				width: 100%;
+				height: auto;
+				display: block;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1.2;
+			}
+
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>
+	</head>
+
+	<body>
+		<main>
+			<article>
+
+				<!-- Back Icon -->
+				<a href="/" class="back-icon" aria-label="Back to overview">
+					<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+						<path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</a>
+
+				{heroImage ? (
+					<div class="hero-image">
+						<img src={heroImage} alt={heroAlt} loading="lazy" decoding="async" />
+					</div>
+				) : null}
+
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{updatedDate ? (
+								<div class="last-updated-on">
+									Last updated on <FormattedDate date={updatedDate} />
+								</div>
+							) : null}
+						</div>
+
+						<h1>{title}</h1>
+					</div>
+
+					<slot />
+				</div>
+			</article>
+		</main>
+	</body>
+</html>

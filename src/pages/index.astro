@@ -5,6 +5,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
 
 const BASE = import.meta.env.BASE_URL;
+const toPostPath = (id: string) => id.replace(/\.(md|mdx)$/i, "");
+const toBasePath = (path: string) =>
+	`${BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
 
 const posts = (await getCollection("blog"))
 	.sort((a, b) => a.data.periodStart.valueOf() - b.data.periodStart.valueOf());
@@ -25,7 +28,7 @@ const companyUrl = "https://ehpa.org/";
 				<div class="hero__media">
 					<img
 						class="hero__avatar"
-						src={`${BASE}images/me.jpg`}
+						src={toBasePath("images/me.jpg")}
 						alt="Portrait of Katarina Bajnokova"
 						decoding="async"
 					/>
@@ -74,7 +77,7 @@ const companyUrl = "https://ehpa.org/";
 						{posts.map((post) => (
 							<li class="post-card">
 								{/* ✅ base-safe + clean slug URL */}
-								<a class="post-link" href={`${BASE}blog/${post.slug}/`}>
+								<a class="post-link" href={toBasePath(`blog/${toPostPath(post.id)}/`)}>
 									<div class="post-card__top">
 										<h3 class="post-title">{post.data.title}</h3>
 										<span class="post-chip">Entry</span>

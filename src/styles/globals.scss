@@ -6,7 +6,10 @@
 /* ============================= */
 
 html {
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(155, 77, 150, 0.1), transparent 35%),
+    radial-gradient(circle at 100% 0%, rgba(155, 77, 150, 0.07), transparent 30%),
+    var(--color-bg);
 }
 
 body {
@@ -165,6 +168,7 @@ code {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+  border-left: 4px solid transparent;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
@@ -182,7 +186,8 @@ code {
 .post-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-soft);
-  border-color: rgba(91, 95, 245, 0.22);
+  border-color: rgba(155, 77, 150, 0.28);
+  border-left-color: var(--color-accent);
 }
 
 .post-card__top {

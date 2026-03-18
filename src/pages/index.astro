@@ -8,9 +8,16 @@ const BASE = import.meta.env.BASE_URL;
 const toPostPath = (id: string) => id.replace(/\.(md|mdx)$/i, "");
 const toBasePath = (path: string) =>
 	`${BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+const getWeekNumber = (id: string) => {
+	const match = id.match(/week-(\d+)/i);
+	return match ? Number.parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+};
 
-const posts = (await getCollection("blog"))
-	.sort((a, b) => a.data.periodStart.valueOf() - b.data.periodStart.valueOf());
+const posts = (await getCollection("blog")).sort((a, b) => {
+	const weekDiff = getWeekNumber(a.id) - getWeekNumber(b.id);
+	if (weekDiff !== 0) return weekDiff;
+	return a.id.localeCompare(b.id);
+});
 
 const companyName = "EHPA";
 const companyUrl = "https://ehpa.org/";

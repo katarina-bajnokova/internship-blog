@@ -274,3 +274,31 @@ code {
     justify-content: flex-start;
   }
 }
+
+.wp-screenshots--captions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.wp-screenshots--captions figure {
+  margin: 0;
+}
+
+.wp-screenshots--captions img {
+  width: 100%;
+  max-width: 850px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.wp-screenshots--captions figcaption {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
